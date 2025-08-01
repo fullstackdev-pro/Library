@@ -10,7 +10,7 @@ $controller = $_GET['route'] ?? 'books/index';
 list($controllerName, $action) = explode('/', $controller);
 // var_dump($controllerName, $action);
 
-if ($controllerName == 'users') {
+if ($controllerName == 'user') {
     $user = new userController();
     if ($action == 'register') {
         $user->register();

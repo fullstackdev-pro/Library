@@ -13,11 +13,11 @@
     <header class="absolute top-0 h-12 w-full">
         <div class="flex justify-between items-center h-full text-lg">
             <div>
-                <a href="index.php?route=books/index">Bosh sahifa</a>
+                <a href="index.php?route=book/index">Bosh sahifa</a>
             </div>
             <div>
-                <a href="index.php?route=users/login">Login</a>
-                <a href="index.php?route=users/register" class="ml-6">Register</a>
+                <a href="index.php?route=user/login">Login</a>
+                <a href="index.php?route=user/register" class="ml-6">Registratsiya</a>
             </div>
         </div>
     </header>

@@ -7,18 +7,19 @@
         <div>
             <label for="username">Username:</label>
             <br>
-            <input type="text" name="username" id="username" class="border-[1px] rounded mt-1">
+            <input type="text" name="username" id="username" class="border-[1px] rounded mt-1 px-2 py-[1px]">
         </div>
         <div>
             <label for="email">Email:</label>
             <br>
-            <input type="email" name="email" id="email" class="border-[1px] rounded mt-1">
+            <input type="email" name="email" id="email" class="border-[1px] rounded mt-1 px-2 py-[1px]">
         </div>
         <div>
             <label for="password">Password:</label>
             <br>
-            <input type="password" name="password" id="password" class="border-[1px] rounded mt-1">
+            <input type="password" name="password" id="password" class="border-[1px] rounded mt-1 px-2 py-[1px]">
         </div>
+        <button type="submit" class="border-[1px] rounded px-[4.68rem] mt-4 py-[3px] cursor-pointer">Registratsiya</button>
     </form>
 </div>
 

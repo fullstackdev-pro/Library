@@ -26,13 +26,13 @@ class userController
 
             $result = $this->userModel->register($user_name, $email, $password);
             if ($result['success']) {
-                header('Location: index.php?route=users/login');
+                header('Location: index.php?route=user/login');
             } else {
                 $error = $result['message'];
                 require __DIR__ . '../../views/users/register.php';
             }
         } else {
-            require __DIR__ . '../../views/users/register.php';
+            require __DIR__ . '../../views/user/register.php';
         }
     }
 
@@ -52,7 +52,7 @@ class userController
             if ($result['success']) {
                 $_SESSION['user_id'] = $result['result']['id'];
                 $_SESSION['role'] = $result['result']['role'];
-                header('Location: index.php?route=users/login');
+                header('Location: index.php?route=user/login');
                 exit;
             } else {
                 $error = $result['message'];
@@ -67,7 +67,7 @@ class userController
     {
         session_unset();
         session_destroy();
-        header("Location: index.php?route=users/login");
+        header("Location: index.php?route=user/login");
         exit;
     }
 }
