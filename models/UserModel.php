@@ -1,8 +1,8 @@
 <?php
 
-require_once __DIR__ . '../../config.php/database.php';
+require_once __DIR__ . '/../config/database.php';
 
-class userModel
+class UserModel
 {
     private $pdo;
 

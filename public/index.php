@@ -1,17 +1,18 @@
 <?php
 session_start();
 
-include_once __DIR__ . '../../controllers/BookController.php';
-include_once __DIR__ . '../../controllers/CategoryController.php';
-include_once __DIR__ . '../../controllers/ReservationController.php';
-include_once __DIR__ . '../../controllers/UserController.php';
+include_once __DIR__ . '/../controllers/BookController.php';
+include_once __DIR__ . '/../controllers/CategoryController.php';
+include_once __DIR__ . '/../controllers/ReservationController.php';
+include_once __DIR__ . '/../controllers/UserController.php';
 
-$controller = $_GET['route'] ?? 'books/index';
+$controller = $_GET['route'] ?? 'book/index';
+
 list($controllerName, $action) = explode('/', $controller);
 // var_dump($controllerName, $action);
 
 if ($controllerName == 'user') {
-    $user = new userController();
+    $user = new UserController();
     if ($action == 'register') {
         $user->register();
     } elseif ($action == 'login') {
@@ -19,9 +20,9 @@ if ($controllerName == 'user') {
     } elseif ($action == 'logout') {
         $user->logout();
     }
-} elseif ($controller == 'books') {
-    // $books = new bookController();
-    // if ($action == 'index') {
-    //     $books->index();
-    // }
+} elseif ($controllerName == 'book') {
+    $books = new BookController();
+    if ($action == 'index') {
+        $books->index();
+    }
 }

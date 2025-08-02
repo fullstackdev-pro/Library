@@ -22,4 +22,4 @@
         </div>
     </header>
 
-    <div class="py-12 h-full">
+    <div class="h-[calc(100%-6rem)] w-full absolute top-12">

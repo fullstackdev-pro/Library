@@ -1,14 +1,14 @@
 <?php
 session_start();
-include_once __DIR__ . '../../models/UserModel.php';
+include_once __DIR__ . '/../models/UserModel.php';
 
-class userController
+class UserController
 {
     private $userModel;
 
     public function __construct()
     {
-        $this->userModel = new userModel();
+        $this->userModel = new UserModel();
     }
 
     public function register()
@@ -20,7 +20,7 @@ class userController
 
             if (empty($user_name) || empty($email) || empty($password)) {
                 $error = "Barcha ma'lumotlar bo'lishi kerak";
-                require __DIR__ . '../../views/users/register.php';
+                require __DIR__ . '/../views/users/register.php';
                 return;
             }
 
@@ -29,10 +29,10 @@ class userController
                 header('Location: index.php?route=user/login');
             } else {
                 $error = $result['message'];
-                require __DIR__ . '../../views/users/register.php';
+                require __DIR__ . '/../views/users/register.php';
             }
         } else {
-            require __DIR__ . '../../views/user/register.php';
+            require __DIR__ . '/../views/users/register.php';
         }
     }
 
@@ -44,7 +44,7 @@ class userController
 
             if (empty($email) || empty($password)) {
                 $error = "Barcha ma'lumotlar bo'lishi kerak";
-                require __DIR__ . '../../views/users/login.php';
+                require __DIR__ . '/../views/users/login.php';
                 return;
             }
 
@@ -56,10 +56,10 @@ class userController
                 exit;
             } else {
                 $error = $result['message'];
-                require __DIR__ . '../../views/users/login.php';
+                require __DIR__ . '/../views/users/login.php';
             }
         } else {
-            require __DIR__ . '../../views/users/login.php';
+            require __DIR__ . '/../views/users/login.php';
         }
     }
 
