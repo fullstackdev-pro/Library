@@ -24,5 +24,14 @@ if ($controllerName == 'user') {
     $books = new BookController();
     if ($action == 'index') {
         $books->index();
+    } elseif ($action == 'show') {
+        $books->show();
+    } elseif ($action == 'create') {
+        $books->create();
+    }
+} elseif ($controllerName == 'category') {
+    $categories = new CategoryController();
+    if ($action == 'index') {
+        $categories->index();
     }
 }

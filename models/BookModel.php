@@ -22,4 +22,38 @@ class BookModel
             return ['success' => false, 'message' => $e];
         }
     }
+
+    public function show($id)
+    {
+        if (empty($id)) {
+            return ['success' => false, 'message' => 'id bo\'lishi kerak'];
+        }
+
+        try {
+            $stmt = $this->pdo->prepare('SELECT * FROM books WHERE books.id == ?');
+            $stmt->execute([$id]);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            return ['success' => true, 'result' => $result];
+        } catch (PDOException $e) {
+            return ['success' => false, 'message' => $e];
+        }
+    }
+
+    public function create($title, $author, $category_id, $decription, $aviable, $image)
+    {
+        try {
+            if (empty($result) || empty($author) || empty($category_id) || empty($decription) || empty($aviable) || empty($image)) {
+                return ['success' => false, 'message' => "Barcha ma'lumotlar bo'lishi kerak"];
+            }
+
+            $stmt = $this->pdo->prepare('INSERT INTO books (title, author, category_id, description, aviable, image) VALUES (?, ?, ?, ?, ?, ?)');
+            $result = $stmt->execute([$title, $author, $category_id, $decription, $aviable, $image]);
+
+            return ['success' => true, 'result' => $result];
+        } catch (PDOException $e) {
+            return ['success' => false, 'message' => $e];
+        }
+    }
+
 }

@@ -38,7 +38,7 @@ class UserController
 
     public function login()
     {
-        if ($_SERVER['REQUEST_METHOD' == 'POST']) {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $email = htmlspecialchars($_POST['email']) ?? '';
             $password = htmlspecialchars($_POST['password']) ?? '';
 
@@ -49,10 +49,11 @@ class UserController
             }
 
             $result = $this->userModel->login($email, $password);
+            var_dump($result);
             if ($result['success']) {
                 $_SESSION['user_id'] = $result['result']['id'];
                 $_SESSION['role'] = $result['result']['role'];
-                header('Location: index.php?route=user/login');
+                header('Location: index.php?route=book/index');
                 exit;
             } else {
                 $error = $result['message'];

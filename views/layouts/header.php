@@ -15,10 +15,25 @@
             <div>
                 <a href="index.php?route=book/index">Bosh sahifa</a>
             </div>
-            <div>
-                <a href="index.php?route=user/login">Login</a>
-                <a href="index.php?route=user/register" class="ml-6">Registratsiya</a>
-            </div>
+            <?php if (isset($_SESSION['user_id'])): ?>
+                <?php if ($_SESSION['role'] == 'user'): ?>
+                    <div>
+                        <a href="index.php?route=reservation/index">Bronlar</a>
+                        <a href="index.php?route=user/logout" class="ml-6">Tizimdan chiqish</a>
+                    </div>
+                <?php elseif ($_SESSION['role'] == 'admin'): ?>
+                    <div>
+                        <a href="index.php?route=book/create">Kitob qo'shish</a>
+                        <a href="index.php?route=category/index" class="ml-6">Kategoriyalar</a>
+                        <a href="index.php?route=user/logout" class="ml-6">Tizimdan chiqish</a>
+                    </div>
+                <?php endif; ?>
+            <?php else: ?>
+                <div>
+                    <a href="index.php?route=user/login">Login</a>
+                    <a href="index.php?route=user/register" class="ml-6">Registratsiya</a>
+                </div>
+            <?php endif; ?>
         </div>
     </header>
 
