@@ -30,7 +30,7 @@ class BookModel
         }
 
         try {
-            $stmt = $this->pdo->prepare('SELECT * FROM books WHERE books.id == ?');
+            $stmt = $this->pdo->prepare('SELECT * FROM books WHERE id = ?');
             $stmt->execute([$id]);
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -40,15 +40,15 @@ class BookModel
         }
     }
 
-    public function create($title, $author, $category_id, $decription, $aviable, $image)
+    public function create($title, $author, $category_id, $description, $available, $image)
     {
         try {
-            if (empty($result) || empty($author) || empty($category_id) || empty($decription) || empty($aviable) || empty($image)) {
+            if (empty($title) || empty($author) || empty($category_id) || empty($description) || empty($available) || empty($image)) {
                 return ['success' => false, 'message' => "Barcha ma'lumotlar bo'lishi kerak"];
             }
 
-            $stmt = $this->pdo->prepare('INSERT INTO books (title, author, category_id, description, aviable, image) VALUES (?, ?, ?, ?, ?, ?)');
-            $result = $stmt->execute([$title, $author, $category_id, $decription, $aviable, $image]);
+            $stmt = $this->pdo->prepare('INSERT INTO books (title, author, category_id, description, available, image) VALUES (?, ?, ?, ?, ?, ?)');
+            $result = $stmt->execute([$title, $author, $category_id, $description, $available, $image]);
 
             return ['success' => true, 'result' => $result];
         } catch (PDOException $e) {

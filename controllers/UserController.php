@@ -49,7 +49,6 @@ class UserController
             }
 
             $result = $this->userModel->login($email, $password);
-            var_dump($result);
             if ($result['success']) {
                 $_SESSION['user_id'] = $result['result']['id'];
                 $_SESSION['role'] = $result['result']['role'];

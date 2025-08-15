@@ -1,7 +1,6 @@
 <?php include __DIR__ . '/../layouts/header.php' ?>
 <?php require_once __DIR__ . '/../../middlewares/auth.php' ?>
 
-<section class="h-full">
     <?php if (isAdmin()): ?>
         <form action="index.php?route=book/create" method="POST"
             class="h-full grid grid-cols-1 gap-y-3 justify-items-center place-content-center" enctype="multipart/form-data">
@@ -34,15 +33,15 @@
                 </div>
             </div>
             <div>
-                <label for="decription">Kitob haqida:</label>
+                <label for="description">Kitob haqida:</label>
                 <br>
-                <input type="text" name="decription" id="decription" class="border-[1px] rounded mt-1 px-2 py-[1px]">
+                <input type="text" name="description" id="description" class="border-[1px] rounded mt-1 px-2 py-[1px]">
             </div>
             <div class="w-[250px]">
-                <label for="aviable">Mavjudmi:</label>
+                <label for="available">Mavjudmi:</label>
                 <br>
                 <div class="w-full text-right mt-1">
-                    <select name="aviable" id="aviable" class="cursor-pointer">
+                    <select name="available" id="available" class="cursor-pointer">
                         <option value="true">
                             Bor
                         </option>
@@ -67,6 +66,5 @@
     <?php else: ?>
         <?php requireAdmin() ?>
     <?php endif; ?>
-</section>
 
 <?php include __DIR__ . '/../layouts/footer.php' ?>

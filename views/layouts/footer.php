@@ -1,3 +1,4 @@
+</section>
 </div>
 
 <footer class="absolute bottom-0 h-12 w-full flex items-center justify-center">

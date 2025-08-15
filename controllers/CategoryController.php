@@ -28,7 +28,7 @@ class CategoryController
             }
 
         } else {
-            header('Location: index.php?route=books/index');
+            header('Location: index.php?route=book/index');
             exit;
         }
     }
@@ -37,12 +37,21 @@ class CategoryController
     {
         if (isAdmin()) {
             if ($_SERVER['REQUEST_METHOD'] == "POST") {
+                $category_name = htmlspecialchars($_POST['category_name']);
+                $result = $this->categoryModel->create($category_name);
 
+                if ($result['success']) {
+                    header('Location: index.php?route=category/index');
+                    exit;
+                } else {
+                    $error = $result['message'];
+                    require __DIR__ . '/../views/categories/create.php';
+                }
             } else {
                 require __DIR__ . '/../views/categories/create.php';
             }
         } else {
-            header('Location: index.php?route=books/index');
+            header('Location: index.php?route=book/index');
             exit;
         }
     }
@@ -51,17 +60,17 @@ class CategoryController
     {
         if (isAdmin()) {
             $id = $_POST['id'];
-            $category = $this->categoryModel->getCategory($id);
+            $category = $this->categoryModel->getCategory((int) $id);
 
             if ($category['success']) {
-                $category = $category['result'];
+                $category = $category['result'][0];
                 require __DIR__ . '/../views/categories/edit.php';
             } else {
                 $error = $category['message'];
                 require __DIR__ . '/../views/categories/edit.php';
             }
         } else {
-            header('Location: index.php?route=books/index');
+            header('Location: index.php?route=book/index');
             exit;
         }
     }
@@ -70,11 +79,11 @@ class CategoryController
     {
         if (isAdmin()) {
             if ($_SERVER['REQUEST_METHOD'] == "POST" && $id) {
-                $title = $_POST['title'];
+                $name = $_POST['category_name'];
 
-                $result = $this->categoryModel->update($title, $id);
+                $result = $this->categoryModel->update($name, (int) $id);
                 if ($result['success']) {
-                    header('Location: index.php?route=task/index');
+                    header('Location: index.php?route=category/index');
                     exit;
                 } else {
                     $error = "Kategoriyani o'zgartirib bo'lmadi!";
@@ -84,13 +93,31 @@ class CategoryController
                 require __DIR__ . '/../views/categories/edit.php';
             }
         } else {
-            header('Location: index.php?route=books/index');
+            header('Location: index.php?route=book/index');
             exit;
         }
     }
 
     public function delete()
     {
+        if (isAdmin()) {
+            if ($_SERVER['REQUEST_METHOD'] == "POST") {
+                $id = $_POST['category_id'];
 
+                $result = $this->categoryModel->delete((int) $id);
+                if ($result['success']) {
+                    header('Location: index.php?route=category/index');
+                    exit;
+                } else {
+                    $error = "Kategoriyani o'chirib bo'lmadi!";
+                    require __DIR__ . "/../views/categories/index.php";
+                }
+            } else {
+                require __DIR__ . '/../views/categories/index.php';
+            }
+        } else {
+            header('Location: index.php?route=book/index');
+            exit;
+        }
     }
 }
