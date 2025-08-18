@@ -95,4 +95,43 @@ class BookModel
 
     }
 
+    public function search($search)
+    {
+        try {
+            if (empty($search)) {
+                $error = '$search bo\'lishi kerak';
+                return ['success' => false, 'result' => $error];
+            }
+
+            $stmt = $this->pdo->prepare("
+        SELECT *, 
+        CASE
+         WHEN MATCH(title, author, description) AGAINST(:search IN NATURAL LANGUAGE MODE) THEN 3
+         WHEN title LIKE CONCAT('%', :search, '%') THEN 3
+         WHEN author LIKE CONCAT('%', :search, '%') THEN 2
+         WHEN description LIKE CONCAT('%', :search, '%') THEN 1
+         ELSE 0
+           END AS relevance
+        FROM books
+        WHERE MATCH(title, author, description) AGAINST(:search IN NATURAL LANGUAGE MODE)
+            OR title LIKE CONCAT('%', :search, '%')
+            OR author LIKE CONCAT('%', :search, '%')
+            OR description LIKE CONCAT('%', :search, '%')
+        ORDER BY relevance DESC;
+        ");
+
+            $stmt->execute([":search" => $search]);
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            if (!empty($results)) {
+                return ['success' => true, 'result' => $results];
+            } else {
+                $error = "Qidiruvda hech narsa topilmadi";
+                return ['success' => false, 'message' => $error];
+            }
+        } catch (PDOException $e) {
+            return ['success' => false, 'message' => $e];
+        }
+    }
+
 }

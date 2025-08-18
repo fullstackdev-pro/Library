@@ -263,4 +263,28 @@ class BookController
             header('Location: index.php?route=book/index');
         }
     }
+
+    public function search()
+    {
+        try {
+            $search = htmlspecialchars($_POST['search']);
+
+            if (empty($search)) {
+                $error = 'Qidiruv so\'zi bo\'lishi kerak';
+                return ['success' => false, 'message' => $error];
+            }
+
+            $result = $this->bookModel->search($search);
+
+            if ($result['success']) {
+                $searchResult = $result['result'];
+                require __DIR__ . '/../views/books/search.php';
+            } else {
+                $error = $result['message'];
+                require __DIR__ . '/../views/books/search.php';
+            }
+        } catch (PDOException $e) {
+            return ['success' => false, 'message' => $e];
+        }
+    }
 }
