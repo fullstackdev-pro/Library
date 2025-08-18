@@ -56,4 +56,43 @@ class BookModel
         }
     }
 
+    public function edit($title, $author, $category_id, $description, $available, $image, $id)
+    {
+        try {
+            if (empty($title) || empty($author) || empty($category_id) || empty($description) || empty($available) || empty($image)) {
+                return ['success' => false, 'message' => "Barcha ma'lumotlar bo'lishi kerak"];
+            }
+
+            $stmt = $this->pdo->prepare(
+                'UPDATE books
+                        SET title = ?, author = ?, category_id = ?, description = ?, available = ?, image = ? 
+                        WHERE id = ?'
+            );
+
+            $result = $stmt->execute([$title, $author, $category_id, $description, $available, $image, $id]);
+
+            return ['success' => true, 'result' => $result];
+        } catch (PDOException $e) {
+            return ['success' => false, 'message' => $e];
+        }
+    }
+
+    public function delete($id)
+    {
+        try {
+            if (empty($id)) {
+                return ['success' => false, 'message' => 'Id bo\'lishi kerak'];
+            }
+
+            $stmt = $this->pdo->prepare('DELETE FROM books WHERE id = ?');
+            $result = $stmt->execute([$id]);
+
+            return ['success' => true, 'result' => $result];
+        } catch (PDOException $e) {
+            return ['success' => false, 'message' => $e];
+        }
+
+
+    }
+
 }

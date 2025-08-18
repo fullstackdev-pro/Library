@@ -1,3 +1,5 @@
+<?php require_once __DIR__ . '/../../middlewares/auth.php' ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,19 +15,24 @@
 
     <header class="absolute top-0 h-12 w-full">
         <div class="flex justify-between items-center h-full text-lg">
-            <div>
+            <div class="flex">
                 <a href="index.php?route=book/index">Bosh sahifa</a>
+                <form action="index.php?route=book/search" method="post" class="ml-4 relative">
+                    <input type="search" name="search" id="search" class="border-[1px] rounded px-2">
+                    <button type="submit" class="absolute right-0 px-2 cursor-pointer"><i
+                            class="bi bi-search"></i></button>
+                </form>
             </div>
-            <?php if (isset($_SESSION['user_id'])): ?>
-                <?php if ($_SESSION['role'] == 'user'): ?>
-                    <div>
-                        <a href="index.php?route=reservation/index">Bronlar</a>
-                        <a href="index.php?route=user/logout" class="ml-6">Tizimdan chiqish</a>
-                    </div>
-                <?php elseif ($_SESSION['role'] == 'admin'): ?>
+            <?php if (isAuthenticated() || isAdmin()): ?>
+                <?php if (isAdmin()): ?>
                     <div>
                         <a href="index.php?route=book/create">Kitob qo'shish</a>
                         <a href="index.php?route=category/index" class="ml-6">Kategoriyalar</a>
+                        <a href="index.php?route=user/logout" class="ml-6">Tizimdan chiqish</a>
+                    </div>
+                <?php elseif (isAuthenticated()): ?>
+                    <div>
+                        <a href="index.php?route=reservation/index">Bronlar</a>
                         <a href="index.php?route=user/logout" class="ml-6">Tizimdan chiqish</a>
                     </div>
                 <?php endif; ?>

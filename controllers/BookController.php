@@ -1,5 +1,4 @@
 <?php
-session_start();
 
 require_once __DIR__ . '/../models/BookModel.php';
 require_once __DIR__ . '/../models/CategoryModel.php';
@@ -59,11 +58,11 @@ class BookController
             $categories = $this->categoryModel->index()['result'];
 
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                $title = $_POST['title'];
-                $author = $_POST['author'];
-                $category_id = (int) $_POST['category_id'];
-                $description = $_POST['description'];
-                $available = (bool) $_POST['available'];
+                $title = htmlspecialchars($_POST['title']);
+                $author = htmlspecialchars($_POST['author']);
+                $category_id = htmlspecialchars((int) $_POST['category_id']);
+                $description = htmlspecialchars($_POST['description']);
+                $available = (bool) htmlspecialchars($_POST['available']);
 
                 $name = basename($_FILES["photo"]['name']);
                 $tmp_name = $_FILES["photo"]['tmp_name'];
@@ -74,7 +73,7 @@ class BookController
 
                 $allowed_mimes = ['image/jpg', 'image/jpeg', 'image/png'];
                 $allowed_extensions = ['jpg', 'jpeg', 'png'];
-                $max_file_size = 2 * 1024 * 1024; // 2MB
+                $max_file_size = 4 * 1024 * 1024; // 2MB
 
                 // Rasmlar saqlanadigan papka (fizik yo'l bilan)
                 $uploadDir = __DIR__ . '/../public/images/';
@@ -114,6 +113,154 @@ class BookController
         } else {
             header('Location: index.php?route=book/index');
         }
+    }
 
+    public function edit()
+    {
+        if (isAdmin()) {
+            $id = htmlspecialchars($_POST['id']);
+            $result = $this->bookModel->show($id);
+            $categories = $this->categoryModel->index()['result'];
+
+            if ($result['success']) {
+                if (empty($result['result'])) {
+                    $error = "Bu kitob haqida batafsil ma'lumot topilmadi";
+                    require __DIR__ . '/../views/books/edit.php';
+                } else {
+                    $book = $result['result'];
+                    require __DIR__ . '/../views/books/edit.php';
+                }
+            } else {
+                $error = $result['message'];
+                require __DIR__ . '/../views/books/edit.php';
+            }
+        } else {
+            header('Location: index.php?route=book/index');
+        }
+    }
+
+    public function update()
+    {
+        if (isAdmin()) {
+            $id = htmlspecialchars($_POST['id']);
+            $result = $this->bookModel->show($id);
+
+            if ($result['success']) {
+                if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                    $id = (int) htmlspecialchars($_POST['id']);
+                    $title = htmlspecialchars($_POST['title']);
+                    $author = htmlspecialchars($_POST['author']);
+                    $category_id = (int) htmlspecialchars($_POST['category_id']);
+                    $description = htmlspecialchars($_POST['description']);
+                    $available = (bool) htmlspecialchars($_POST['available']);
+                    $name = basename($_FILES["photo"]['name']);
+                    $oldPhoto = htmlspecialchars($_POST['oldPhoto']);
+
+                    // Surat o'zgartirilmasa
+                    if (!$name) {
+                        $book = $this->bookModel->edit($title, $author, $category_id, $description, $available, $oldPhoto, $id);
+
+                        if ($book['success']) {
+                            header('Location: index.php?route=book/index');
+                            exit;
+                        } else {
+                            require __DIR__ . '/../views/books/create.php';
+                        }
+                    }
+                    // Surat o'zgartirligan bo'lsa
+                    else {
+                        $tmp_name = $_FILES["photo"]['tmp_name'];
+                        $type = mime_content_type($_FILES["photo"]['tmp_name']);
+                        $size = $_FILES["photo"]['size'];
+                        $ext = pathinfo($name, PATHINFO_EXTENSION);
+                        $imageName = uniqid('upload_', true) . '.' . $ext;
+
+                        $allowed_mimes = ['image/jpg', 'image/jpeg', 'image/png'];
+                        $allowed_extensions = ['jpg', 'jpeg', 'png'];
+                        $max_file_size = 4 * 1024 * 1024; // 4MB
+
+                        // Rasmlar saqlanadigan papka (fizik yo'l bilan)
+                        $uploadDir = __DIR__ . '/../public/images/';
+
+                        if (!is_dir($uploadDir)) {
+                            mkdir($uploadDir, 0777, true);
+                        }
+
+                        if (in_array($ext, $allowed_extensions) && in_array($type, $allowed_mimes)) {
+                            if ($size <= $max_file_size) {
+                                if (is_uploaded_file($tmp_name)) {
+
+                                    // ✅ Eski rasmni o‘chirish
+                                    if (!empty($oldPhoto)) {
+                                        $oldPath = $uploadDir . $oldPhoto;
+                                        if (file_exists($oldPath)) {
+                                            unlink($oldPath);
+                                        }
+                                    }
+
+                                    if (move_uploaded_file($tmp_name, $uploadDir . $imageName)) {
+                                        $book = $this->bookModel->edit(
+                                            $title,
+                                            $author,
+                                            $category_id,
+                                            $description,
+                                            $available,
+                                            $imageName,
+                                            $id
+                                        );
+
+                                        if ($book['success']) {
+                                            header('Location: index.php?route=book/index');
+                                            exit;
+                                        } else {
+                                            require __DIR__ . '/../views/books/edit.php';
+                                        }
+                                    } else {
+                                        $error = "❌ Faylni ko‘chirishda xatolik!";
+                                        exit();
+                                    }
+                                } else {
+                                    $error = "Fayl yuklanmadi!";
+                                    exit();
+                                }
+                            } else {
+                                $error = "Fayl hajmi 2MB dan oshmasligi kerak.";
+                                exit();
+                            }
+                        } else {
+                            $error = "Fayl turi ruxsat etilmagan.";
+                            exit();
+                        }
+
+                    }
+                } else {
+                    $book = $result['result'];
+                    require __DIR__ . '/../views/books/edit.php';
+                }
+            } else {
+                $error = "Bu kitob haqida batafsil ma'lumot topilmadi";
+                require __DIR__ . '/../views/books/show.php';
+            }
+        } else {
+            header('Location: index.php?route=book/index');
+        }
+    }
+
+    public function delete()
+    {
+        if (isAdmin()) {
+            $id = (int) htmlspecialchars($_POST['id']);
+            $result = $this->bookModel->delete($id);
+
+            if ($result['success']) {
+                header('Location: index.php?route=book/index');
+                exit;
+            } else {
+                $error = $result['message'];
+                require __DIR__ . '/../views/books/show.php';
+            }
+        } else {
+            header('Location: index.php?route=book/index');
+        }
     }
 }
