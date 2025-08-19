@@ -1,21 +1,38 @@
 <?php
+require_once __DIR__ . '/../vendor/autoload.php';
+
+use Dotenv\Dotenv;
 
 class Database
 {
-    private $host = 'localhost';
-    private $dbname = 'library';
-    private $username = 'root';
-    private $password = 'qwer1234';
     private $pdo;
+
+    public function __construct()
+    {
+        // .env ni yuklash
+        $dotenv = Dotenv::createImmutable(__DIR__ . '/..');
+        $dotenv->load();
+    }
 
     public function connect()
     {
         try {
-            $this->pdo = new PDO("mysql:host=$this->host;dbname=$this->dbname", $this->username, $this->password);
+            $host = $_ENV['DB_HOST'];
+            $dbname = $_ENV['DB_DATABASE'];
+            $port = $_ENV['DB_PORT'];
+            $username = $_ENV['DB_USERNAME'];
+            $password = $_ENV['DB_PASSWORD'];
+
+            $this->pdo = new PDO(
+                "mysql:host=$host;port=$port;dbname=$dbname;charset=utf8mb4",
+                $username,
+                $password
+            );
             $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             return $this->pdo;
         } catch (PDOException $e) {
             echo "Ulanish xatosi: " . $e->getMessage();
+            exit;
         }
     }
 }
