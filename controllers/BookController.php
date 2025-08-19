@@ -35,7 +35,7 @@ class BookController
 
     public function show()
     {
-        $id = htmlspecialchars($_POST['id']);
+        $id = htmlspecialchars($_POST['id'], ENT_QUOTES, 'UTF-8');
         $result = $this->bookModel->show($id);
 
         if ($result['success']) {
@@ -58,11 +58,11 @@ class BookController
             $categories = $this->categoryModel->index()['result'];
 
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                $title = htmlspecialchars($_POST['title']);
-                $author = htmlspecialchars($_POST['author']);
-                $category_id = htmlspecialchars((int) $_POST['category_id']);
-                $description = htmlspecialchars($_POST['description']);
-                $available = (bool) htmlspecialchars($_POST['available']);
+                $title = htmlspecialchars($_POST['title'], ENT_QUOTES, 'UTF-8');
+                $author = htmlspecialchars($_POST['author'], ENT_QUOTES, 'UTF-8');
+                $category_id = htmlspecialchars((int) $_POST['category_id'], ENT_QUOTES, 'UTF-8');
+                $description = htmlspecialchars($_POST['description'], ENT_QUOTES, 'UTF-8');
+                $available = (bool) htmlspecialchars($_POST['available'], ENT_QUOTES, 'UTF-8');
 
                 $name = basename($_FILES["photo"]['name']);
                 $tmp_name = $_FILES["photo"]['tmp_name'];
@@ -118,7 +118,7 @@ class BookController
     public function edit()
     {
         if (isAdmin()) {
-            $id = htmlspecialchars($_POST['id']);
+            $id = htmlspecialchars($_POST['id'], ENT_QUOTES, 'UTF-8');
             $result = $this->bookModel->show($id);
             $categories = $this->categoryModel->index()['result'];
 
@@ -142,19 +142,19 @@ class BookController
     public function update()
     {
         if (isAdmin()) {
-            $id = htmlspecialchars($_POST['id']);
+            $id = htmlspecialchars($_POST['id'], ENT_QUOTES, 'UTF-8');
             $result = $this->bookModel->show($id);
 
             if ($result['success']) {
                 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                    $id = (int) htmlspecialchars($_POST['id']);
-                    $title = htmlspecialchars($_POST['title']);
-                    $author = htmlspecialchars($_POST['author']);
-                    $category_id = (int) htmlspecialchars($_POST['category_id']);
-                    $description = htmlspecialchars($_POST['description']);
-                    $available = (bool) htmlspecialchars($_POST['available']);
+                    $id = (int) htmlspecialchars($_POST['id'], ENT_QUOTES, 'UTF-8');
+                    $title = htmlspecialchars($_POST['title'], ENT_QUOTES, 'UTF-8');
+                    $author = htmlspecialchars($_POST['author'], ENT_QUOTES, 'UTF-8');
+                    $category_id = (int) htmlspecialchars($_POST['category_id'], ENT_QUOTES, 'UTF-8');
+                    $description = htmlspecialchars($_POST['description'], ENT_QUOTES, 'UTF-8');
+                    $available = (bool) htmlspecialchars($_POST['available'], ENT_QUOTES, 'UTF-8');
                     $name = basename($_FILES["photo"]['name']);
-                    $oldPhoto = htmlspecialchars($_POST['oldPhoto']);
+                    $oldPhoto = htmlspecialchars($_POST['oldPhoto'], ENT_QUOTES, 'UTF-8');
 
                     // Surat o'zgartirilmasa
                     if (!$name) {
@@ -249,7 +249,7 @@ class BookController
     public function delete()
     {
         if (isAdmin()) {
-            $id = (int) htmlspecialchars($_POST['id']);
+            $id = (int) htmlspecialchars($_POST['id'], ENT_QUOTES, 'UTF-8');
             $result = $this->bookModel->delete($id);
 
             if ($result['success']) {
@@ -267,7 +267,7 @@ class BookController
     public function search()
     {
         try {
-            $search = htmlspecialchars($_POST['search']);
+            $search = htmlspecialchars($_POST['search'], ENT_QUOTES, 'UTF-8');
 
             if (empty($search)) {
                 $error = 'Qidiruv so\'zi bo\'lishi kerak';

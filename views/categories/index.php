@@ -13,7 +13,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-y-4">
             <?php foreach ($categories as $category): ?>
                 <div class="mb-2">
-                    <p class="text-2xl font-bold mb-1"><?= htmlspecialchars($category['name']) ?></p>
+                    <p class="text-2xl font-bold mb-1"><?= htmlspecialchars($category['name'], ENT_QUOTES, 'UTF-8') ?></p>
                     <div class="flex">
                         <!-- Edit form -->
                         <form action="index.php?route=category/edit" method="POST">

@@ -13,9 +13,9 @@ class UserController
     public function register()
     {
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
-            $user_name = htmlspecialchars($_POST['username']) ?? '';
-            $email = htmlspecialchars($_POST['email']) ?? '';
-            $password = htmlspecialchars($_POST['password']) ?? '';
+            $user_name = htmlspecialchars($_POST['username'], ENT_QUOTES, 'UTF-8') ?? '';
+            $email = htmlspecialchars($_POST['email'], ENT_QUOTES, 'UTF-8') ?? '';
+            $password = htmlspecialchars($_POST['password'], ENT_QUOTES, 'UTF-8') ?? '';
 
             if (empty($user_name) || empty($email) || empty($password)) {
                 $error = "Barcha ma'lumotlar bo'lishi kerak";
@@ -38,8 +38,8 @@ class UserController
     public function login()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $email = htmlspecialchars($_POST['email']) ?? '';
-            $password = htmlspecialchars($_POST['password']) ?? '';
+            $email = htmlspecialchars($_POST['email'], ENT_QUOTES, 'UTF-8') ?? '';
+            $password = htmlspecialchars($_POST['password'], ENT_QUOTES, 'UTF-8') ?? '';
 
             if (empty($email) || empty($password)) {
                 $error = "Barcha ma'lumotlar bo'lishi kerak";

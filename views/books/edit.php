@@ -11,7 +11,7 @@
             <label for="title">Kitob nomi:</label>
             <br>
             <input type="text" name="title" id="title" class="border-[1px] rounded mt-1 px-[0.9rem] py-[1px]"
-                value="<?= htmlspecialchars($book['title']) ?>">
+                value="<?= htmlspecialchars($book['title'], ENT_QUOTES, 'UTF-8') ?>">
         </div>
 
         <!-- Book author -->
@@ -19,7 +19,7 @@
             <label for="author">Muallif:</label>
             <br>
             <input type="text" name="author" id="author" class="border-[1px] rounded mt-1 px-[0.9rem] py-[1px]"
-                value="<?= htmlspecialchars($book['author']) ?>">
+                value="<?= htmlspecialchars($book['author'], ENT_QUOTES, 'UTF-8') ?>">
         </div>
 
         <!-- Book category -->
@@ -34,7 +34,7 @@
                         <?php foreach ($categories as $category): ?>
                             <!-- Option with logic which category selected default -->
                             <option value="<?= $category['id'] ?>" <?= ($book['category_id'] == $category['id']) ? 'selected' : '' ?>>
-                                <?= htmlspecialchars($category['name']) ?>
+                                <?= htmlspecialchars($category['name'], ENT_QUOTES, 'UTF-8') ?>
                             </option>
                         <?php endforeach; ?>
                     </select>
@@ -47,8 +47,8 @@
             <label for="description">Kitob haqida:</label>
             <br>
             <textarea class="w-full h-32 px-[1.85rem] border rounded" name="description" id="description">
-                                                                <?= htmlspecialchars($book['description']) ?>    
-                                                                </textarea>
+                    <?= htmlspecialchars($book['description'], ENT_QUOTES, 'UTF-8') ?>    
+                </textarea>
         </div>
 
         <!-- Book available -->
@@ -57,7 +57,7 @@
             <br>
             <div class="w-full text-right mt-1">
                 <select name="available" id="available" class="cursor-pointer"
-                    value="<?= htmlspecialchars($book['available']) ?>">
+                    value="<?= htmlspecialchars($book['available'], ENT_QUOTES, 'UTF-8') ?>">
                     <option value="true">
                         Bor
                     </option>
@@ -80,10 +80,11 @@
         </div>
 
         <!-- Old photo name for know changed image -->
-        <input id="oldPhoto" name="oldPhoto" class="hidden" value="<?= htmlspecialchars($book['image']) ?>">
+        <input id="oldPhoto" name="oldPhoto" class="hidden"
+            value="<?= htmlspecialchars($book['image'], ENT_QUOTES, 'UTF-8') ?>">
 
         <!-- Book id for get all book information -->
-        <input id="id" name="id" class="hidden" value="<?= htmlspecialchars($book['id']) ?>">
+        <input id="id" name="id" class="hidden" value="<?= htmlspecialchars($book['id'], ENT_QUOTES, 'UTF-8') ?>">
 
         <!-- Submit button -->
         <button type="submit" class="border-[1px] rounded px-[4.5rem] py-[3px] cursor-pointer">Kitob

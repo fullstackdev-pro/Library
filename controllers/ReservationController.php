@@ -40,7 +40,7 @@ class ReservationController
     public function create()
     {
         $user_id = $_SESSION['user_id'];
-        $book_id = htmlspecialchars($_POST['book_id']);
+        $book_id = htmlspecialchars($_POST['book_id'], ENT_QUOTES, 'UTF-8');
 
         $reservations = $this->reservationModel->index($user_id)['result'];
 

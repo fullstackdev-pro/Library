@@ -37,7 +37,7 @@ class CategoryController
     {
         if (isAdmin()) {
             if ($_SERVER['REQUEST_METHOD'] == "POST") {
-                $category_name = htmlspecialchars($_POST['category_name']);
+                $category_name = htmlspecialchars($_POST['category_name'], ENT_QUOTES, 'UTF-8');
                 $result = $this->categoryModel->create($category_name);
 
                 if ($result['success']) {
@@ -59,7 +59,7 @@ class CategoryController
     public function edit()
     {
         if (isAdmin()) {
-            $id = $_POST['id'];
+            $id = htmlspecialchars($_POST['id'], ENT_QUOTES, 'UTF-8');
             $category = $this->categoryModel->getCategory((int) $id);
 
             if ($category['success']) {
@@ -79,7 +79,7 @@ class CategoryController
     {
         if (isAdmin()) {
             if ($_SERVER['REQUEST_METHOD'] == "POST" && $id) {
-                $name = $_POST['category_name'];
+                $name = htmlspecialchars($_POST['category_name'], ENT_QUOTES, 'UTF-8');
 
                 $result = $this->categoryModel->update($name, (int) $id);
                 if ($result['success']) {
@@ -102,7 +102,7 @@ class CategoryController
     {
         if (isAdmin()) {
             if ($_SERVER['REQUEST_METHOD'] == "POST") {
-                $id = $_POST['category_id'];
+                $id = htmlspecialchars($_POST['category_id'], ENT_QUOTES, 'UTF-8');
 
                 $result = $this->categoryModel->delete((int) $id);
                 if ($result['success']) {

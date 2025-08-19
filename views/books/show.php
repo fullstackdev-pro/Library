@@ -25,17 +25,17 @@
                 <button type="submit" class="cursor-pointer">Bron qilish</button>
             </form>
         <?php endif; ?>
-        <img src="/images/<?= htmlspecialchars($book['image']) ?>" alt="Book image"
+        <img src="/images/<?= htmlspecialchars($book['image'], ENT_QUOTES, 'UTF-8') ?>" alt="Book image"
             class="w-full md:w-[50%] lg:w-[30%] p-4 md:float-left">
 
         <p class="text-xl font-bold text-center">
-            <?= htmlspecialchars($book['title']) ?>
+            <?= htmlspecialchars($book['title'], ENT_QUOTES, 'UTF-8') ?>
         </p>
         <p class="text-lg font-medium mt-1  ">
-            Muallif: <?= htmlspecialchars($book['author']) ?>
+            Muallif: <?= htmlspecialchars($book['author'], ENT_QUOTES, 'UTF-8') ?>
         </p>
         <p class="mt-3">
-            <?= htmlspecialchars($book['description']) ?>
+            <?= htmlspecialchars($book['description'], ENT_QUOTES, 'UTF-8') ?>
         </p>
 
     </div>

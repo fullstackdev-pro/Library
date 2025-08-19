@@ -25,7 +25,7 @@
                     <select name="category_id" id="category_id" class="w-full cursor-pointer">
                         <?php foreach ($categories as $category): ?>
                             <option value="<?= $category['id'] ?>">
-                                <?= htmlspecialchars($category['name']) ?>
+                                <?= htmlspecialchars($category['name'], ENT_QUOTES, 'UTF-8') ?>
                             </option>
                         <?php endforeach; ?>
                     </select>
