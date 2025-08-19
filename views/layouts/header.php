@@ -1,4 +1,4 @@
-<?php require_once __DIR__ . '/../../middlewares/auth.php' ?>
+<?php $token = generateCsrfToken() ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -18,9 +18,9 @@
             <div class="flex">
                 <a href="index.php?route=book/index">Bosh sahifa</a>
                 <form action="index.php?route=book/search" method="post" class="ml-4 relative">
+                    <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($token) ?>">
                     <input required type="search" name="search" id="search" class="border-[1px] rounded px-2">
-                    <button type="submit" class="px-2 cursor-pointer"><i
-                            class="bi bi-search"></i></button>
+                    <button type="submit" class="px-2 cursor-pointer"><i class="bi bi-search"></i></button>
                 </form>
             </div>
             <?php if (isAuthenticated() || isAdmin()): ?>

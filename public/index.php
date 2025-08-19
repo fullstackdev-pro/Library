@@ -1,6 +1,8 @@
 <?php
 error_reporting(E_ALL);
 require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../middlewares/csrf.php';
+require_once __DIR__ . '/../middlewares/auth.php';
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . "/..");
 $dotenv->load();

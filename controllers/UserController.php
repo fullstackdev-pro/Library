@@ -13,6 +13,10 @@ class UserController
     public function register()
     {
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
+            if (!verifyCsrfToken($_POST['csrf_token'])) {
+                die("Xato: CSRF token mos emas!");
+            }
+
             $user_name = htmlspecialchars($_POST['username'], ENT_QUOTES, 'UTF-8') ?? '';
             $email = htmlspecialchars($_POST['email'], ENT_QUOTES, 'UTF-8') ?? '';
             $password = htmlspecialchars($_POST['password'], ENT_QUOTES, 'UTF-8') ?? '';
@@ -38,6 +42,10 @@ class UserController
     public function login()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if (!verifyCsrfToken($_POST['csrf_token'])) {
+                die("Xato: CSRF token mos emas!");
+            }
+
             $email = htmlspecialchars($_POST['email'], ENT_QUOTES, 'UTF-8') ?? '';
             $password = htmlspecialchars($_POST['password'], ENT_QUOTES, 'UTF-8') ?? '';
 

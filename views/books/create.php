@@ -1,9 +1,11 @@
 <?php include __DIR__ . '/../layouts/header.php' ?>
-<?php require_once __DIR__ . '/../../middlewares/auth.php' ?>
+<?php $token = generateCsrfToken() ?>
+
 
 <?php if (isAdmin()): ?>
     <form action="index.php?route=book/create" method="POST"
         class="h-full grid grid-cols-1 gap-y-3 justify-items-center place-content-center" enctype="multipart/form-data">
+        <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($token) ?>">
         <p class="text-2xl font-bold">Kitob qo'shish</p>
         <div>
             <label for="title">Kitob nomi:</label>

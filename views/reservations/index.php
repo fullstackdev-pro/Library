@@ -1,6 +1,5 @@
 <?php include __DIR__ . '/../layouts/header.php' ?>
-<?php require_once __DIR__ . '/../../middlewares/auth.php' ?>
-
+<?php $token = generateCsrfToken() ?>
 <?php if ($error): ?>
     <p><?= $error ?></p>
 <?php else: ?>
@@ -8,6 +7,7 @@
         <?php foreach ($reservations as $book): ?>
             <form action="index.php?route=book/show" method="POST"
                 style="margin-bottom: 1rem; padding: 1rem; border: 1px solid #ccc; border-radius: 5px">
+                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($token) ?>">
                 <input type="hidden" name="id" value="<?= (int) $book['id'] ?>">
                 <button type="submit" class="text-left cursor-pointer">
                     <img class="h-[15.7rem] w-full"

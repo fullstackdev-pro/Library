@@ -1,9 +1,11 @@
 <?php include __DIR__ . '/../layouts/header.php' ?>
-<?php require_once __DIR__ . '/../../middlewares/auth.php' ?>
+<?php $token = generateCsrfToken() ?>
 
 <?php if (isAdmin()): ?>
     <form action="index.php?route=book/update" method="POST"
         class="h-full grid grid-cols-1 gap-y-3 justify-items-center place-content-center" enctype="multipart/form-data">
+        <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($token) ?>">
+
         <p class="text-2xl font-bold">Kitob tahrirlash</p>
 
         <!-- Book name(title) -->
@@ -47,8 +49,8 @@
             <label for="description">Kitob haqida:</label>
             <br>
             <textarea class="w-full h-32 px-[1.85rem] border rounded" name="description" id="description">
-                    <?= htmlspecialchars($book['description'], ENT_QUOTES, 'UTF-8') ?>    
-                </textarea>
+                        <?= htmlspecialchars($book['description'], ENT_QUOTES, 'UTF-8') ?>    
+                    </textarea>
         </div>
 
         <!-- Book available -->

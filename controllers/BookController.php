@@ -2,7 +2,6 @@
 
 require_once __DIR__ . '/../models/BookModel.php';
 require_once __DIR__ . '/../models/CategoryModel.php';
-require_once __DIR__ . '/../middlewares/auth.php';
 
 class BookController
 {
@@ -35,6 +34,10 @@ class BookController
 
     public function show()
     {
+        if (!verifyCsrfToken($_POST['csrf_token'])) {
+            die("Xato: CSRF token mos emas!");
+        }
+
         $id = htmlspecialchars($_POST['id'], ENT_QUOTES, 'UTF-8');
         $result = $this->bookModel->show($id);
 
@@ -54,10 +57,15 @@ class BookController
 
     public function create()
     {
+
         if (isAdmin()) {
             $categories = $this->categoryModel->index()['result'];
 
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                if (!verifyCsrfToken($_POST['csrf_token'])) {
+                    die("Xato: CSRF token mos emas!");
+                }
+
                 $title = htmlspecialchars($_POST['title'], ENT_QUOTES, 'UTF-8');
                 $author = htmlspecialchars($_POST['author'], ENT_QUOTES, 'UTF-8');
                 $category_id = htmlspecialchars((int) $_POST['category_id'], ENT_QUOTES, 'UTF-8');
@@ -117,6 +125,10 @@ class BookController
 
     public function edit()
     {
+        if (!verifyCsrfToken($_POST['csrf_token'])) {
+            die("Xato: CSRF token mos emas!");
+        }
+
         if (isAdmin()) {
             $id = htmlspecialchars($_POST['id'], ENT_QUOTES, 'UTF-8');
             $result = $this->bookModel->show($id);
@@ -141,6 +153,10 @@ class BookController
 
     public function update()
     {
+        if (!verifyCsrfToken($_POST['csrf_token'])) {
+            die("Xato: CSRF token mos emas!");
+        }
+
         if (isAdmin()) {
             $id = htmlspecialchars($_POST['id'], ENT_QUOTES, 'UTF-8');
             $result = $this->bookModel->show($id);
@@ -248,6 +264,10 @@ class BookController
 
     public function delete()
     {
+        if (!verifyCsrfToken($_POST['csrf_token'])) {
+            die("Xato: CSRF token mos emas!");
+        }
+
         if (isAdmin()) {
             $id = (int) htmlspecialchars($_POST['id'], ENT_QUOTES, 'UTF-8');
             $result = $this->bookModel->delete($id);
@@ -266,6 +286,10 @@ class BookController
 
     public function search()
     {
+        if (!verifyCsrfToken($_POST['csrf_token'])) {
+            die("Xato: CSRF token mos emas!");
+        }
+
         try {
             $search = htmlspecialchars($_POST['search'], ENT_QUOTES, 'UTF-8');
 

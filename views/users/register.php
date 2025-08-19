@@ -1,4 +1,5 @@
 <?php include __DIR__ . '../../layouts/header.php' ?>
+<?php $token = generateCsrfToken() ?>
 
 <?php if ($error): ?>
     <p>
@@ -7,6 +8,7 @@
 <?php endif; ?>
 <form action="index.php?route=user/register" method="POST"
     class="h-full grid grid-cols-1 gap-y-3 justify-items-center place-content-center">
+    <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($token) ?>">
     <p class="text-2xl font-bold">Ro'yxatdan o'tish</p>
     <div>
         <label for="username">Username:</label>

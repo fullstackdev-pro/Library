@@ -37,6 +37,10 @@ class CategoryController
     {
         if (isAdmin()) {
             if ($_SERVER['REQUEST_METHOD'] == "POST") {
+                if (!verifyCsrfToken($_POST['csrf_token'])) {
+                    die("Xato: CSRF token mos emas!");
+                }
+
                 $category_name = htmlspecialchars($_POST['category_name'], ENT_QUOTES, 'UTF-8');
                 $result = $this->categoryModel->create($category_name);
 
@@ -58,6 +62,10 @@ class CategoryController
 
     public function edit()
     {
+        if (!verifyCsrfToken($_POST['csrf_token'])) {
+            die("Xato: CSRF token mos emas!");
+        }
+
         if (isAdmin()) {
             $id = htmlspecialchars($_POST['id'], ENT_QUOTES, 'UTF-8');
             $category = $this->categoryModel->getCategory((int) $id);
@@ -79,6 +87,10 @@ class CategoryController
     {
         if (isAdmin()) {
             if ($_SERVER['REQUEST_METHOD'] == "POST" && $id) {
+                if (!verifyCsrfToken($_POST['csrf_token'])) {
+                    die("Xato: CSRF token mos emas!");
+                }
+
                 $name = htmlspecialchars($_POST['category_name'], ENT_QUOTES, 'UTF-8');
 
                 $result = $this->categoryModel->update($name, (int) $id);
@@ -102,6 +114,10 @@ class CategoryController
     {
         if (isAdmin()) {
             if ($_SERVER['REQUEST_METHOD'] == "POST") {
+                if (!verifyCsrfToken($_POST['csrf_token'])) {
+                    die("Xato: CSRF token mos emas!");
+                }
+
                 $id = htmlspecialchars($_POST['category_id'], ENT_QUOTES, 'UTF-8');
 
                 $result = $this->categoryModel->delete((int) $id);

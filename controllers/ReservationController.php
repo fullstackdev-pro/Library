@@ -39,6 +39,10 @@ class ReservationController
 
     public function create()
     {
+        if (!verifyCsrfToken($_POST['csrf_token'])) {
+            die("Xato: CSRF token mos emas!");
+        }
+
         $user_id = $_SESSION['user_id'];
         $book_id = htmlspecialchars($_POST['book_id'], ENT_QUOTES, 'UTF-8');
 

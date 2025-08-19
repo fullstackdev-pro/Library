@@ -1,5 +1,5 @@
 <?php include __DIR__ . '/../layouts/header.php' ?>
-<?php require_once __DIR__ . '/../../middlewares/auth.php' ?>
+<?php $token = generateCsrfToken() ?>
 
 <?php if (isAdmin()): ?>
     <div>
@@ -17,6 +17,7 @@
                     <div class="flex">
                         <!-- Edit form -->
                         <form action="index.php?route=category/edit" method="POST">
+                            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($token) ?>">
                             <input type="hidden" name="id" value="<?= (int) $category['id'] ?>">
                             <button type="submit" class="rounded text-lg cursor-pointer">Tahrirlsh <i
                                     class="bi bi-pencil-square"></i></button>
@@ -25,6 +26,7 @@
                         <!-- Delete form -->
                         <form action="index.php?route=category/delete" method="POST"
                             onsubmit="return confirm('Rostdan ham o\'chirishni hohlaysizmi?');">
+                            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($token) ?>">
                             <input type="hidden" name="category_id" value="<?= (int) $category['id'] ?>">
                             <button type="submit" class="ml-4 px-2 rounded bg-red-500 text-white text-lg cursor-pointer">O‘chirish
                                 <i class="bi bi-trash3-fill"></i></button>

@@ -1,5 +1,5 @@
 <?php include __DIR__ . '/../layouts/header.php' ?>
-<?php require_once __DIR__ . '/../../middlewares/auth.php' ?>
+<?php $token = generateCsrfToken() ?>
 
 <?php if ($error): ?>
     <p><?= $error ?></p>
@@ -8,6 +8,7 @@
         <?php foreach ($books as $book): ?>
             <form action="index.php?route=book/show" method="POST"
                 style="margin-bottom: 1rem; padding: 1rem; border: 1px solid #ccc; border-radius: 5px">
+                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($token) ?>">
                 <input type="hidden" name="id" value="<?= (int) $book['id'] ?>">
                 <button type="submit" class="text-left cursor-pointer">
                     <img class="w-full" src="/images/<?php echo htmlspecialchars($book['image'], ENT_QUOTES, 'UTF-8'); ?>"
@@ -15,7 +16,8 @@
                     <h2 class="text-xl font-semibold"><?= htmlspecialchars($book['title'], ENT_QUOTES, 'UTF-8') ?></h2>
                     <p class="text-lg font-medium">Muallif: <?= htmlspecialchars($book['author'], ENT_QUOTES, 'UTF-8') ?></p>
                     <p class="line-clamp-3 overflow-hidden text-ellipsis">
-                        <?= htmlspecialchars($book['description'], ENT_QUOTES, 'UTF-8') ?></p>
+                        <?= htmlspecialchars($book['description'], ENT_QUOTES, 'UTF-8') ?>
+                    </p>
                 </button>
             </form>
         <?php endforeach; ?>
